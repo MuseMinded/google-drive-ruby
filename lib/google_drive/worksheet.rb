@@ -96,14 +96,28 @@ module GoogleDrive
       )[0]['href']
     end
 
+    def excel_export_url
+       @worksheet_feed_entry.css(
+            "link[rel='http://schemas.google.com/spreadsheets/2006#exportxlsx']"
+          )[0]['href']
+    end
     # Exports the worksheet as String in CSV format.
     def export_as_string
       @session.request(:get, csv_export_url, response_type: :raw)
     end
 
+    def export_as_excel
+      @session.request(:get, excel_export_url)
+    end
+
     # Exports the worksheet to +path+ in CSV format.
     def export_as_file(path)
       data = export_as_string
+      open(path, 'wb') { |f| f.write(data) }
+    end
+
+    def export_as_excel_file(path)
+      data = export_as_excel
       open(path, 'wb') { |f| f.write(data) }
     end
 
