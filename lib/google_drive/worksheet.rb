@@ -113,7 +113,7 @@ module GoogleDrive
 
    # Exports the worksheet to +path+ in xlsx format.
     def export_as_excel_file(path)
-      data = export_as_string
+      data = export_as_string('xlsx')
       open(path, 'wb') { |f| f.write(data) }
     end
 
